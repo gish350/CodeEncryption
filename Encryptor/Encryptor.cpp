@@ -82,5 +82,9 @@ int main()
 
 	GetCodeLoc(hFileMapping, &addrInfo);
 	cipherBytes(hFileMapping, &addrInfo);
+
+	HANDLE hNewFile = CreateFile("xored", GENERIC_WRITE, FILE_SHARE_READ, 0, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
+	DWORD tmp;
+	WriteFile(hNewFile, hFileMapping, fileSize &tmp, 0);
 	return 0;
 }
