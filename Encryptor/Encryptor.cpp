@@ -61,7 +61,7 @@ int getHMODULE(const char* fileName, DWORD** hFileMapping)
 
 void cipherBytes(DWORD* hInMem, PADDRESS_INFO addrInfo)
 {
-	BYTE* codeStart = (BYTE*)(hInMem + (DWORD)(*addrInfo).fileCodeOffset);
+	BYTE* codeStart = (BYTE*)hInMem + (*addrInfo).fileCodeOffset;
 	int curPos = 0;
 	for(int i = 0; i < (*addrInfo).fileCodeSize; i++)
 	{
