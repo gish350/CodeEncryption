@@ -9,6 +9,8 @@ typedef struct _ADDRESS_INFO
 	DWORD fileCodeSize;			//# of bytes used by .code section in file
 }ADDRESS_INFO, * PADDRESS_INFO;
 
+DWORD fileSize;
+
 void TraverseSectionHeaders(PIMAGE_SECTION_HEADER section, DWORD nSections, PADDRESS_INFO addrInfo)
 {
 	DWORD i;
@@ -51,7 +53,7 @@ int getHMODULE(const char* fileName, DWORD** hFileMapping)
 		printf("Cannot open input file.");
 		return 0;
 	}
-	DWORD fileSize = GetFileSize(hFile, 0);
+	fileSize = GetFileSize(hFile, 0);
 	*hFileMapping = (DWORD*)GlobalAlloc(GMEM_FIXED | GMEM_ZEROINIT, fileSize);
 	DWORD tmp;
 	ReadFile(hFile, *hFileMapping, fileSize, &tmp, 0);
@@ -76,15 +78,17 @@ int main()
 	DWORD* hFileMapping = 0;
 	ADDRESS_INFO addrInfo;
 
-	char fileName[] = "C:\\Users\\atsee\\source\\repos\\CodeEncryption\\Debug\\CodeEncryption.exe";
+	//char fileName[] = "C:\\Users\\atsee\\source\\repos\\CodeEncryption\\Debug\\CodeEncryption.exe";
+	char fileName[] = "C:\\Users\\tseeganov\\source\\repos\\cec12\\CodeEncryption\\Debug\\CodeEncryption.exe";
 	retVal = getHMODULE(fileName, &hFileMapping);
 	if (retVal == FALSE) { return -1; }
 
 	GetCodeLoc(hFileMapping, &addrInfo);
 	cipherBytes(hFileMapping, &addrInfo);
 
-	HANDLE hNewFile = CreateFile("xored", GENERIC_WRITE, FILE_SHARE_READ, 0, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
+	HANDLE hNewFile = CreateFile("xored.exe", GENERIC_WRITE, FILE_SHARE_READ, 0, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
 	DWORD tmp;
-	WriteFile(hNewFile, hFileMapping, fileSize &tmp, 0);
+	bool res = WriteFile(hNewFile, hFileMapping, fileSize, &tmp, 0);
+	GlobalFree(hFileMapping);
 	return 0;
 }
