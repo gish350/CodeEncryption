@@ -15,7 +15,8 @@ unsigned char var[] = { 0xBE, 0xBA, 0xFE, 0xCA };
 
 void main()
 {
-	// program code here
+	// program code goes here
+	int var = 0xBABE;
 	return;
 } /*end main()-----------------------------------------------------*/
 
@@ -30,7 +31,7 @@ void main()
  can also have cryptor parse PE and set these during encryption
 */
 
-#define CODE_BASE_ADDRESS	0x00401000
+#define CODE_BASE_ADDRESS	0x00413000
 #define CODE_SIZE			0x00000200
 #define KEY					0x0F
 

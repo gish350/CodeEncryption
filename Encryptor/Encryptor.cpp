@@ -65,7 +65,7 @@ void cipherBytes(DWORD* hInMem, PADDRESS_INFO addrInfo)
 {
 	BYTE* codeStart = (BYTE*)hInMem + (*addrInfo).fileCodeOffset;
 	int curPos = 0;
-	for(int i = 0; i < (*addrInfo).fileCodeSize; i++)
+	for(int i = 0; i < 200; i++)
 	{
 		*codeStart = *codeStart ^ 0x0f;
 		codeStart++;
